@@ -1,6 +1,31 @@
-import { UPDATE_COLLECTIONS } from './shop.constants';
+import { FETCH_COLLECTIONS_PENDING, 
+    FETCH_COLLECTIONS_SUCCESS, 
+    FETCH_COLLECTIONS_FAILED } from './shop.constants';
 
-export const updateCollection = (collectionsMap) => ({
-    type: UPDATE_COLLECTIONS,
-    payload: collectionsMap
-})
+    import { firestore, convertCollectionSnapshotTOMap } from '../../Firebase/firebase.util';
+
+const fetchCollectionsPending = () => ({
+    type: FETCH_COLLECTIONS_PENDING,
+});
+
+const fetchCollectionsSuccess = collectionMap => ({
+    type: FETCH_COLLECTIONS_SUCCESS,
+    payload: collectionMap
+});
+
+const fetchCollectionsError = error => ({
+    type: FETCH_COLLECTIONS_FAILED,
+    payload: error
+});
+
+export const fetchCollectionsStartAsync = () => {
+    return dispatch => {
+        const collectionRef = firestore.collection('collections');
+        dispatch(fetchCollectionsPending());
+
+        collectionRef.get().then(snapshot =>{
+            const collectionsMap = convertCollectionSnapshotTOMap(snapshot);
+            dispatch(fetchCollectionsSuccess(collectionsMap));
+        }).catch(error => dispatch(fetchCollectionsError(error)));
+    }
+}
