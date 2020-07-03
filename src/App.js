@@ -8,7 +8,7 @@ import {createStructuredSelector} from 'reselect';
 import Homepage from './page/homepage/homepage.component';
 import ShopPage from './page/shop/shop.component';
 import SignInAndSignUp from './page/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import CheckoutPage from './page/checkout/checkout.component'
+import CheckoutPage from './page/checkout/checkout.component';
 
 
 import Header from './components/header/header.component';
@@ -40,6 +40,8 @@ class App extends Component{
             else{
                 setCurrentUser(userAuth)
             }
+            // addCollectionAndDocuments('collections',
+            // collectionsArray.map(({title, items}) => ({title, items})))
         });
     }
 
@@ -75,7 +77,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = createStructuredSelector({
-    currentUser:selectCurrentUser
+    currentUser:selectCurrentUser,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
