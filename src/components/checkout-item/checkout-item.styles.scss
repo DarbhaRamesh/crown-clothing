@@ -39,4 +39,14 @@
       cursor: pointer;
     }
 }
+
+@media screen and (max-width: 800px){
+  .checkout-item {
+    font-size: 18px;
+
+    .image-container{
+      width: 22%;
+    }
+  }
+}
   

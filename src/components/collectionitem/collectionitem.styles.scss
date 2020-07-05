@@ -35,7 +35,7 @@
     }
   
     .collection-footer {
-      width: 100%;
+      width: 90%;
       height: 5%;
       display: flex;
       justify-content: space-between;
@@ -51,3 +51,26 @@
       }
     }
   }
+
+@media screen and (max-width: 800px){
+  .collection-item{
+    width: 40vw;
+    &:hover{
+      .image{
+        opacity: unset;
+      }
+    }
+
+    .collection-footer{
+      width: 90%;
+    }
+
+    .custom-button{
+      opacity: unset;
+      display: block;
+      opacity: 0.9;
+      min-width: unset;
+      padding: 0 10px;
+    }
+  }
+}
