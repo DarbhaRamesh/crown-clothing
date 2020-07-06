@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {connect } from 'react-redux';
 import './sign-in.styles.scss';
 
@@ -7,78 +7,71 @@ import CustomButton from '../custom-button/custom-button.component';
 import { googleSignInStart, emailSignInStart, githubSignInStart } from '../../redux/user/user.actions'
 
 
-class SignIn extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            email : '',
-            password : ''
-        }
-    }
+const SignIn = ({ emailSignInStart, googleSignInStart, githubSignInStart }) => {
+    const [userCredentials, setUserCredentials] = useState({email: '', password:''});
 
-    handleSubmit = event =>{
-        event.preventDefault();
-        const { emailSignInStart } = this.props
-        const {email,password } = this.state;
+    const {email,password } = userCredentials;
+
+    const handleSubmit = event =>{
+        event.preventDefault()
 
         emailSignInStart(email, password);
     }
 
-    handleChange = event => {
+    const handleChange = event => {
         const {value, name } = event.target;
 
-        this.setState({[name]:value})
+        setUserCredentials({ ...userCredentials , [name]:value});
     }
 
-    render() {
-        const {googleSignInStart, githubSignInStart} = this.props
-        return(
-            <div className='sign-in'>
-                <h2>I already have an account</h2>
-                <span>Sign in with your email and password</span>
+    
+    return(
+        <div className='sign-in'>
+            <h2>I already have an account</h2>
+            <span>Sign in with your email and password</span>
 
-                <form onSubmit={this.handleSubmit}>
-                <FormInput 
-                name= 'email' 
-                type ='email' 
-                value ={ this.state.email } 
-                handleChange= { this.handleChange}
-                label='Email'
-                required
-                />
-                <FormInput 
-                name='password' 
-                type ='password' 
-                value ={ this.state.password }
-                handleChange= { this.handleChange}
-                label='Password'
-                required
-                />
-                <div className='buttons'>
-                    <CustomButton type ='submit'>
-                        Sign in
-                    </CustomButton>
+            <form onSubmit={handleSubmit}>
+            <FormInput 
+            name= 'email' 
+            type ='email' 
+            value ={ email } 
+            handleChange= { handleChange}
+            label='Email'
+            required
+            />
+            <FormInput 
+            name='password' 
+            type ='password' 
+            value ={ password }
+            handleChange= { handleChange}
+            label='Password'
+            required
+            />
+            <div className='buttons'>
+                <CustomButton type ='submit'>
+                    Sign in
+                </CustomButton>
 
-                    <CustomButton
-                    type = 'button' 
-                    onClick = { googleSignInStart } isGoogleSignIn
-                    >
-                        Google sign in 
-                    </CustomButton>
-                </div>
                 <CustomButton
                 type = 'button' 
-                onClick = { githubSignInStart }
+                onClick = { googleSignInStart } isGoogleSignIn
                 >
-                    Github sign in 
+                    Google sign in 
                 </CustomButton>
-                </form>
-
-                
             </div>
-        )
-    }
+            <CustomButton
+            type = 'button' 
+            onClick = { githubSignInStart }
+            >
+                Github sign in 
+            </CustomButton>
+            </form>
+
+            
+        </div>
+    )
 }
+
 
 const mapDispatchToProps = dispatch => ({
     googleSignInStart: () => dispatch(googleSignInStart()),

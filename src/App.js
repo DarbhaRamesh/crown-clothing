@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {createStructuredSelector} from 'reselect';
@@ -17,36 +17,33 @@ import {selectCurrentUser} from './redux/user/user.selectors';
 import './App.css';
 
 
-class App extends Component{
+const App = ({ checkUserSession, currentUser}) =>{
 
-    componentDidMount(){
-        const {checkUserSession} = this.props;
+    useEffect(() => {
         checkUserSession();
-    }
+    }, [checkUserSession])
 
 
-    render(){
-        return(
-            <div>
-                <Header />
-                <Switch>
-                    <Route exact path ='/' component = { Homepage }/>
-                    <Route exact path = '/checkout' component = { CheckoutPage } />
-                    <Route exact path = '/signin' render = {() => 
-                        this.props.currentUser ?(
-                            <Redirect to='/' />
-                            ) : (
-                                <SignInAndSignUp />
-                                )
-                            }
-                            />
-                    <Route path ='/shop' component = { ShopPage }/>
-                </Switch>
-            </div>
-        )
-    }
+    
+    return(
+        <div>
+            <Header />
+            <Switch>
+                <Route exact path ='/' component = { Homepage }/>
+                <Route exact path = '/checkout' component = { CheckoutPage } />
+                <Route exact path = '/signin' render = {() => 
+                    currentUser ?(
+                        <Redirect to='/' />
+                        ) : (
+                            <SignInAndSignUp />
+                            )
+                        }
+                        />
+                <Route path ='/shop' component = { ShopPage }/>
+            </Switch>
+        </div>
+    )
 }
-
 
 
 const mapStateToProps = createStructuredSelector({
