@@ -4,7 +4,7 @@ import './sign-in.styles.scss';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-import { googleSignInStart, emailSignInStart } from '../../redux/user/user.actions'
+import { googleSignInStart, emailSignInStart, githubSignInStart } from '../../redux/user/user.actions'
 
 
 class SignIn extends Component {
@@ -31,7 +31,7 @@ class SignIn extends Component {
     }
 
     render() {
-        const {googleSignInStart} = this.props
+        const {googleSignInStart, githubSignInStart} = this.props
         return(
             <div className='sign-in'>
                 <h2>I already have an account</h2>
@@ -66,6 +66,12 @@ class SignIn extends Component {
                         Google sign in 
                     </CustomButton>
                 </div>
+                <CustomButton
+                type = 'button' 
+                onClick = { githubSignInStart }
+                >
+                    Github sign in 
+                </CustomButton>
                 </form>
 
                 
@@ -76,7 +82,8 @@ class SignIn extends Component {
 
 const mapDispatchToProps = dispatch => ({
     googleSignInStart: () => dispatch(googleSignInStart()),
-    emailSignInStart: (email, password ) => dispatch(emailSignInStart({email, password}))
+    emailSignInStart: (email, password ) => dispatch(emailSignInStart({email, password})),
+    githubSignInStart: () => dispatch(githubSignInStart())
 })
 
 export default connect(null, mapDispatchToProps)(SignIn);

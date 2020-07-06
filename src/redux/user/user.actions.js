@@ -9,12 +9,17 @@ import {
     SIGN_OUT_FAILURE,
     SIGN_UP_START,
     SIGN_UP_SUCCESS,
-    SIGN_UP_FAILURE} from './user.constants';
+    SIGN_UP_FAILURE,
+    GITHUB_SIGN_IN_START} from './user.constants';
 
 
 
 export const googleSignInStart = () => ({
     type: GOOGLE_SIGN_IN_START,
+});
+
+export const githubSignInStart = () => ({
+    type: GITHUB_SIGN_IN_START,
 });
 
 export const signInSuccess = user => ({

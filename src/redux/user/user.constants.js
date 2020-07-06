@@ -20,3 +20,5 @@ export const SIGN_UP_START = 'SIGN_UP_START';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
+
+export const GITHUB_SIGN_IN_START = 'GITHUB_SIGN_IN_START';

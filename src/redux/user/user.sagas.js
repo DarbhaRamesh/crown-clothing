@@ -1,12 +1,14 @@
 import { takeLatest, put, all, call } from 'redux-saga/effects';
 
 import {auth, 
-    googleProvider, 
+    googleProvider,
+    githubProvider, 
     createUserProfileDocument,
     getCurrentUser
 } from '../../Firebase/firebase.util';
 
 import {GOOGLE_SIGN_IN_START,
+    GITHUB_SIGN_IN_START,
     EMAIL_SIGN_IN_START,
     CHECK_USER_SESSION,
     SIGN_OUT_START,
@@ -36,6 +38,16 @@ function* getSnapshotFromUserauth(userAuth, additionalData){
 function* signInWithGoogle(){
     try{
         const { user } = yield auth.signInWithPopup(googleProvider);
+        yield call(getSnapshotFromUserauth, user);
+
+    }catch(error){
+        yield put(signInFailure( error.message));
+    }
+}
+
+function* signInWithGithub(){
+    try{
+        const { user } = yield auth.signInWithPopup(githubProvider);
         yield call(getSnapshotFromUserauth, user);
 
     }catch(error){
@@ -93,6 +105,10 @@ function* onGoogleSignInStart() {
     yield takeLatest(GOOGLE_SIGN_IN_START, signInWithGoogle)
 }
 
+function* onGithubSignInStart() {
+    yield takeLatest(GITHUB_SIGN_IN_START, signInWithGithub)
+}
+
 function* onEmailSignInStart() {
     yield takeLatest(EMAIL_SIGN_IN_START, signInWithEmail)
 }
@@ -116,6 +132,7 @@ function* onSignUpSuccess(){
 export function* userSagas(){
     yield all([
         call(onGoogleSignInStart),
+        call(onGithubSignInStart),
         call(onEmailSignInStart),
         call(onCheckUserSession),
         call(onSignOutStart),
