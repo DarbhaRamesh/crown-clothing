@@ -55,9 +55,9 @@ function* signInWithEmail({payload: {email, password}}){
 
 function* isUserAuthenticated(){
     try{
-        const userAuth = yield getCurrentUser;
-        if(!userAuth)return;
-        yield getSnapshotFromUserauth(userAuth);
+        const userAuth = yield getCurrentUser();
+        if(!userAuth) { return; }
+        else { yield getSnapshotFromUserauth(userAuth); }
     } catch(error){
         yield put(signInFailure(error.message));
     }
